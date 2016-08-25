@@ -13,7 +13,7 @@ def scraper():
 	for item in candidatos:
 		nova_url = url + str(item['num']) + '/' + str(item['num']) + '/' + str(item['sequencial'])
 		r = json.loads(Sessao.get(nova_url).text)
-		item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M% %d/%m/%Y")
+		item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M %d/%m/%Y")
 		item['data_atualizacao_TSE'] = r['dataUltimaAtualizacaoContas']
 		item['total_recebido'] = r['dadosConsolidados']['totalRecebido']
 		item['total_num_doadores'] = r['dadosConsolidados']['qtdRecebido']
