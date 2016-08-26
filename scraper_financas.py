@@ -26,10 +26,16 @@ def scraper():
 		item['proprios_recebido'] = r['dadosConsolidados']['totalProprios']
 		item['total_despesas_cont'] = r['despesas']['totalDespesasContratadas']
 		item['total_despesas_pagas'] = r['despesas']['totalDespesasPagas']
+		for key in item:
+			if not item[key]:
+				item[key] = 0
 		saida.append(item)
 
+	with open('arrecadacao_prefs_sp.json','w') as file:
+		json.dump(saida,file)
+
 	saida = DataFrame(saida).fillna(0)
-	saida.to_csv('arrecadao_prefs_sp.csv',index=None)
+	saida.to_csv('arrecadacao_prefs_sp.csv',index=None)
 
 scraper()
 
