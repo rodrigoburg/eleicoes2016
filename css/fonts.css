@@ -1,0 +1,170 @@
+/* FONTES (comentar as fontes não utilizadas) */
+
+/* Marca Estadão */
+
+@font-face {
+    font-family: 'Marcas Estadão';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadao/marcasestadao-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadao/marcasestadao-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadao/marcasestadao-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadao/marcasestadao-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadao/marcasestadao-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/MarcasEstadaomarcasestadao-webfont.svg#marcas_estadaoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Flama */
+
+@font-face{font-family:'flamabook';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-book-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-book-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-book-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-book-webfont.ttf') format('truetype'),  
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-book-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+    }
+
+@font-face{font-family:'flamamedium';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-medium-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-medium-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-medium-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-medium-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-medium-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+@font-face{font-family:'flamabold';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-bold-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-bold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-bold-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-bold-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-bold-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+@font-face{font-family:'flamalight';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/fonts/Flama/Flama/flama-light-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-light-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-light-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-light-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-light-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+@font-face{font-family:'flamaultralight';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-ultralight-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-ultralight-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-ultralight-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-ultralight-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-ultralight-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+@font-face{font-family:'flamaextrabold';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-extrabold-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-extrabold-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-extrabold-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-extrabold-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+@font-face{font-family:'flamathin';
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-thin-webfont.eot');
+    src:url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-thin-webfont.eot?#iefix') format('embedded-opentype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-thin-webfont.woff') format('woff'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-thin-webfont.ttf') format('truetype'),
+        url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Flama/Flama/flama-thin-webfont.svg#@font-family') format('svg');
+        font-weight:normal;font-style:normal
+}
+
+/* EstadoFine */
+
+@font-face {
+    font-family: 'estadofinebold';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Bold-webfont.svg#estadofinebold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'estadofineitalic';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Italic-webfont.svg#estadofineitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'estadofineregular';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoFine/EstadoFine-Roman-webfont.svg#estadofineregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* EstadoHeadline */
+
+@font-face {
+    font-family: 'estadoheadlinebold';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Bold-webfont.svg#estadoheadlinebold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'estadoheadlineitalic';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Italic-webfont.svg#estadoheadlineitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'estadoheadlineregular';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/Estado/EstadoHeadline/EstadoHeadline-Roman-webfont.svg#estadoheadlineregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* FREIGHT */
+
+@font-face {
+    font-family: 'freightbook';
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.eot');
+    src: url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.woff2') format('woff2'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.woff') format('woff'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.ttf') format('truetype'),
+         url('http://infograficos.estadao.com.br/public/geral/_assets/fonts/FreightText/freighttext-book-webfont.svg#estadoheadlineregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

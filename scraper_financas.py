@@ -32,6 +32,7 @@ def scraper_sp():
 	for seq in dados:
 		nova_url = url + str(dados[seq]	['num']) + '/' + str(dados[seq]['num']) + '/' + str(seq)
 		r = json.loads(Sessao.get(nova_url).text)
+		print(nova_url)
 		item = {}
 		item['data_atualizacao_TSE'] = r['dataUltimaAtualizacaoContas']
 
