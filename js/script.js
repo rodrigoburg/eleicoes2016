@@ -4,6 +4,8 @@ var margins = {top: 10, right: 70, bottom: 80, left: 55},
     height = 550 - margins.top - margins.bottom,
     w = window.innerWidth - 20;
 
+var formato_data = d3.time.format("%d/%m/%Y");
+
 var inicio_campanha = "2016-08-15";
 var cidades = {};
 var escolhido = ['SP',"SÃO PAULO"]
@@ -280,7 +282,6 @@ function evento_clique_mun(uf) {
 }
 
 function comeca_tudo(dados) {
-    console.log(dados)
     dados = conserta_dados(dados);
     desenha_dropdowns();
 
@@ -319,16 +320,17 @@ function comeca_tudo(dados) {
 
     s.addEventHandler("mouseover", function (e){
         var nome = e.seriesValue[0]
+        var dia = formato_data(e.xValue)
 
         cria_tooltip();
-
 
         tooltip.transition()
             .duration(200)
             .style("opacity", 0.9);
         var texto = "<div class='minicontainer'><p class=titulim><b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></p>"
         texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div>"
-        texto += "<div class='textim'> TOTAL RECEBIDO: R$" + numero_com_pontos(e.yValue)+"</div>"
+        texto += "<div class='textim'>R$" + numero_com_pontos(e.yValue)+"</div>"
+        texto += "<div class='textim'>"+dia+"</div>"
         texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
         texto += "<p>Pessoas físicas: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
         texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'

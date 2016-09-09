@@ -31,6 +31,7 @@ body {
 .titulim {
     border-style: solid;
     border-bottom-color: white;
+    font-size:16px;
 }
 
 h1 span {
@@ -255,6 +256,10 @@ ul.share-buttons{
 
 ul.share-buttons li {
     display: inline
+}
+
+.textim {
+  font-size:14px;
 }
 
 .textimzim {
