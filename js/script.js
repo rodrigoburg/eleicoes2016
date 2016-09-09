@@ -129,10 +129,15 @@ function conserta_dados(dados) {
         })
 
         //e aqui um dicionário de dados genéricos de cada candidato para fazermos a tooltip
+        var tipos = ['proprios_recebido','pf_recebido','partidos_recebido']
+
         dados_orig[dados[seq]['nome']] = {}
         for (key in dados[seq]) {
             if (key != 'parciais') {
                 dados_orig[dados[seq]['nome']][key] = dados[seq][key]
+                if (tipos.indexOf(key) != -1) {
+                    dados_orig[dados[seq]['nome']][key+"_porc"] = parseInt(dados[seq][key]*100/dados[seq]['total_recebido'])
+                }
             }
         }
         dados_orig[dados[seq]['nome']]['sequencial'] = seq
@@ -314,12 +319,6 @@ function comeca_tudo(dados) {
 
     s.addEventHandler("mouseover", function (e){
         var nome = e.seriesValue[0]
-        var dadinhos = []
-        var tipos = ['proprios_recebido','pf_recebido','partido_recebido']
-        tipos.forEach(function (d) {
-            var item = {'tipo':d,'valor':dados_orig[nome][d], 'capeta':'sim'};
-            dadinhos.push(item);
-        })
 
         cria_tooltip();
 
@@ -327,26 +326,17 @@ function comeca_tudo(dados) {
         tooltip.transition()
             .duration(200)
             .style("opacity", 0.9);
-        tooltip.html("<b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></br> " +"<div class='minicontainer'><div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div><div class='textim'> TOTAL RECEBIDO: R$" + numero_com_pontos(dados_orig[nome]['total_recebido'])+"</div><div id='grafico_tooltip'></div></div>")
+        var texto = "<div class='minicontainer'><p class=titulim><b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></p>"
+        texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div>"
+        texto += "<div class='textim'> TOTAL RECEBIDO: R$" + numero_com_pontos(e.yValue)+"</div>"
+        texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
+        texto += "<p>Pessoas físicas: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
+        texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'
+        texto += "</div>"
+        tooltip.html(texto)
         tooltip.style("left", (d3.event.pageX + 10) + "px")
           .style("top", (d3.event.pageY - 50) + "px")
           .style("background", (dados_orig[nome]['sigla'] in cores) ? cores[dados_orig[nome]['sigla']] : 'gray' )
-
-       var svg_tooltip = dimple.newSvg("#grafico_tooltip",160,50)
-       svg_tooltip.style("background-color","transparent")
-
-       var grafiquinho = new dimple.chart(svg_tooltip, dadinhos)
-       //grafiquinho.setBounds(0, 0, 30, 0);
-       grafiquinho.addMeasureAxis("x","valor")
-       grafiquinho.addCategoryAxis("y", "capeta");
-       var serie = grafiquinho.addSeries("tipo", dimple.plot.bar);
-
-       grafiquinho.addLegend(45, -40, 100, 20, "left");
-       grafiquinho.draw();
-       $('#grafico_tooltip .dimple-gridline').remove()
-       $('#grafico_tooltip .dimple-axis').remove()
-       $('#grafico_tooltip .dimple-gridline').remove()
-       $('#grafico_tooltip .dimple-gridline').remove()
 
 
     })

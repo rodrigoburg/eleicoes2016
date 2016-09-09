@@ -23,6 +23,16 @@ body {
 
 }
 
+.minicontainer {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  text-align: center;
+}
+
+.titulim {
+    border-style: solid;
+    border-bottom-color: white;
+}
+
 h1 span {
   font-weight: normal;
   font-family: "flamathin";
@@ -229,13 +239,14 @@ div.svgWrap {
 }
 
 .titulo {
-    display:table-cell;
+    padding-top:5px;
 }
 
 .rede_social {
-    position: relative;
     float:right;
-    padding-right: 50px;
+    padding-top:5px;
+    padding-right:10px;
+
 }
 ul.share-buttons{
     list-style: none;
@@ -246,14 +257,10 @@ ul.share-buttons li {
     display: inline
 }
 
-
-
-.titulo_tacinha {
-    color:black;
-    font-size:10px;
-    font-family: arial;
-    opacity: 1;
+.textimzim {
+  font-size:10px;
 }
+
 .menu {
     width:1000px;
     margin:0px auto;
