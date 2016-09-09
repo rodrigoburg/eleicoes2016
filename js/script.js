@@ -1,20 +1,53 @@
 //DIMENSOES DO GRAFICO
 var margins = {top: 10, right: 70, bottom: 80, left: 55},
     width = Math.min(window.innerWidth - margins.right - margins.left - 20,900),
-    margin2 = {top: 430, right: 25, bottom: 20, left: 40},
     height = 550 - margins.top - margins.bottom,
-    height2 = 500 - margin2.top - margin2.bottom,
     w = window.innerWidth - 20;
 
-var inicio_campanha = "2016-08-06"
-
+var inicio_campanha = "2016-08-15";
+var cidades = {};
+var escolhido = ['SP',"SÃO PAULO"]
+var dados_orig = {}
+var cores = {
+    PT:'#A11217',
+    PSOL:'#BE003E',
+    REDE:'#BC005C',
+    PTC:'#BA007C',
+    PCdoB:'#98007F',
+    PP:'#7B057E',
+    PRB:'#5E196F',
+    NOVO:'#45187D',
+    PPL:'#3A3A8B',
+    PSB:'#00408F',
+    PSDB:'#00528B',
+    PROS:'#0066A4',
+    PRTB:'#007CC0',
+    PTB:'#009BDB',
+    PRP:'#0096B2',
+    PDT:'#009493',
+    PHS:'#008270',
+    PR:'#009045',
+    PTN:'#00602D',
+    PSC:'#5F8930',
+    PMR:'#7BAC39',
+    PTdoB:'#A3BD31',
+    PV:'#CAD226',
+    PMN:'#FEEE00',
+    PSD:'#E9BC00',
+    PEN:'#598F59',
+    SD:'#e1c69d',
+    PMDB:'#B6720A',
+    PPS:'#9A740F',
+    DEM:'#634600'
+}
 //TOOLTIP COM INFORMACOES DA LINHA
-var tooltip = d3.select("body").append("div")
+function cria_tooltip() {
+    window.tooltip = d3.select("body").append("div")
       .attr("class", "infoTooltip")
       .style("position", "absolute")
       .style("padding", "4px 8px")
-      .style("background", function(d) {return "orange"})
       .style("opacity", 0);
+}
 
 //função para replace all
 function replaceAll(str, find, replace) {
@@ -35,7 +68,7 @@ function inicia() {
     }
     //se não for IE, começa tudo
     else
-        d3.json ("arrecadacao_prefs_sp.json", comeca_tudo);
+        d3.json ("arrecadacao_prefs_cidades.json", comeca_tudo);
 }
 
 function acha_mais_recente(data1,data2) {
@@ -60,13 +93,13 @@ function conserta_dados(dados) {
         dados[seq]['parciais'].forEach(function (d) {
             item = {}
             for (key in dados[seq]) {
-                if (key != 'parciais') {
+                if (['mun','nome', 'num', 'sigla', 'uf'].indexOf(key) > -1) {
                     item[key] = dados[seq][key]
                 }
             }
             for (key in d) {
                 //tiramos aqui as datas de 1989, que na verdade é qnd não houve declaração de nada
-                if (key == 'data_atualizacao_TSE') {
+                if (key == 'data') {
                     if (d[key] == "1989-12-31") {
                         d[key] = inicio_campanha
                     } else { //aqui populamos a lista datas com um set de todas as datas que temos
@@ -85,8 +118,25 @@ function conserta_dados(dados) {
                 }
             }
 
+            //aqui vamos povoar nosso dicionário de estados e municiípios para criar o select
+            if (!(dados[seq]['uf'] in cidades)) {
+                cidades[dados[seq]['uf']] = []
+            }
+            if (cidades[dados[seq]['uf']].indexOf(dados[seq]['mun']) == -1) {
+                cidades[dados[seq]['uf']].push(dados[seq]['mun'])
+            }
             saida.push(item)
         })
+
+        //e aqui um dicionário de dados genéricos de cada candidato para fazermos a tooltip
+        dados_orig[dados[seq]['nome']] = {}
+        for (key in dados[seq]) {
+            if (key != 'parciais') {
+                dados_orig[dados[seq]['nome']][key] = dados[seq][key]
+            }
+        }
+        dados_orig[dados[seq]['nome']]['sequencial'] = seq
+
     }
 
     //proximo passo: achar qual é a data mais recente que temos
@@ -101,13 +151,13 @@ function conserta_dados(dados) {
         var tem_final = false;
         data_mais_recente = inicio_campanha;
         dados[seq]['parciais'].forEach(function (d) {
-            if (d['data_atualizacao_TSE'] == inicio_campanha) {
+            if (d['data'] == inicio_campanha) {
                 tem_comeco = true;
             }
-            if (d['data_atualizacao_TSE'] == data_hoje) {
+            if (d['data'] == data_hoje) {
                 tem_final = true;
             }
-            data_mais_recente = acha_mais_recente(data_mais_recente,d['data_atualizacao_TSE'])
+            data_mais_recente = acha_mais_recente(data_mais_recente,d['data'])
         })
 
         //se não tiver data do comeco, vamos criar a info e deixar ela vazia
@@ -116,7 +166,7 @@ function conserta_dados(dados) {
 
             //aqui botamos todos os campos como zero, pois é inicio de campanha
             campos.forEach(function (d) {
-                if (d == 'data_atualizacao_TSE') {
+                if (d == 'data') {
                     item[d] = inicio_campanha;
                 } else {
                     item[d] = 0;
@@ -125,7 +175,7 @@ function conserta_dados(dados) {
             })
             //e aqui botamos as infos como nome, partido e numero
             for (key in dados[seq]) {
-                if (key != 'parciais') {
+                if (['mun','nome', 'num', 'sigla', 'uf'].indexOf(key) > -1) {
                     item[key] = dados[seq][key]
                 }
             }
@@ -139,16 +189,16 @@ function conserta_dados(dados) {
 
             //precisamos achar os dados para a data mais recente desse candidato
             dados[seq]['parciais'].forEach(function (d) {
-                if (d['data_atualizacao_TSE'] == data_mais_recente) {
+                if (d['data'] == data_mais_recente) {
                     item = d;
                 }
             })
 
-            item['data_atualizacao_TSE'] = data_hoje;
+            item['data'] = data_hoje;
 
             //e aqui botamos as infos como nome, partido e numero
             for (key in dados[seq]) {
-                if (key != 'parciais') {
+                if (['mun','nome', 'num', 'sigla', 'uf'].indexOf(key) > -1) {
                     item[key] = dados[seq][key]
                 }
             }
@@ -161,15 +211,81 @@ function conserta_dados(dados) {
     return saida
 }
 
+function desenha_dropdowns() {
+    //arruma todas as ufs em ordem alfabetica
+    for (uf in cidades) {
+        cidades[uf].sort();
+    }
+
+    var ufs = $("#menu_ufs")
+    var lista_ufs = Object.keys(cidades).sort()
+    lista_ufs.forEach(function (uf) {
+        if (uf == escolhido[0]) {
+            var temp = '<li><a href="#">'+uf+' <span class="glyphicon glyphicon-ok distrito_ok"></span></a></li>'
+        } else {
+            var temp = '<li><a href="#">'+uf+'</a></li>'
+        }
+        ufs.append(temp)
+    })
+
+    $('#ufs').dropdown();
+    $('#ufs').html(escolhido[0] + ' <span class="caret"></span>')
+
+    ufs.find("li").on("click", function () {
+        $(".cidade").remove()
+        $('.glyphicon-ok').remove()
+
+        uf = $(this).text().trim()
+        escolhido[0] = uf;
+        escolhido[1] = cidades[uf][0];
+        $('#ufs').html(uf + ' <span class="caret"></span>')
+        $(this).html('<a href="#">'+uf + ' <span class="glyphicon glyphicon-ok"></span></a>')
+
+        evento_clique_mun(uf);
+        muda_grafico();
+    })
+
+    $('#muns').dropdown();
+    $('#muns').html(escolhido[1] + ' <span class="caret"></span>')
+    evento_clique_mun(escolhido[0]);
+}
+
+function evento_clique_mun(uf) {
+    var muns = $("#menu_muns")
+    $('#muns').html(escolhido[1] + ' <span class="caret"></span>')
+    cidades[uf].forEach(function (mun) {
+        if (mun == escolhido[1]) {
+            var temp = '<li><a class="cidade" href="#">'+mun+' <span class="glyphicon glyphicon-ok cidade_ok"></span></a></li>'
+        } else {
+            var temp = '<li><a class="cidade" href="#">'+mun+'</a></li>'
+        }
+        muns.append(temp)
+    })
+
+    muns.find("li").on("click", function () {
+        $('.cidade_ok').remove()
+        mun = $(this).text().trim()
+        escolhido[1] = mun;
+        $('#muns').html(mun + ' <span class="caret"></span>')
+        $(this).html('<a class="cidade" href="#">'+mun + ' <span class="glyphicon glyphicon-ok cidade_ok"></span></a>')
+        muda_grafico();
+
+    })
+
+}
+
 function comeca_tudo(dados) {
+    console.log(dados)
     dados = conserta_dados(dados);
-    var svg = dimple.newSvg("#wrapper",width,height)
-    //data = dimple.filterData(data, "distrito", distrito_selec);
+    desenha_dropdowns();
+
+    var svg = dimple.newSvg("#grafico",width,height)
+    dados = dimple.filterData(dados, "mun", escolhido[1]);
 
     var myChart = new dimple.chart(svg, dados);
 
     myChart.setBounds(margins.left, margins.top, width - margins.right, height - margins.bottom);
-    var x = myChart.addTimeAxis("x", "data_atualizacao_TSE","%Y-%m-%d",'%d/%m');
+    var x = myChart.addTimeAxis("x", "data","%Y-%m-%d",'%d/%m');
     var y = myChart.addMeasureAxis("y", "total_recebido");
 
     y.title = 'Total de doações recebidas por candidato (R$)'
@@ -181,22 +297,67 @@ function comeca_tudo(dados) {
 
 
     //customiza a tooltip
-    s.getTooltipText = function(e) {
-        console.log(e)
+    /*s.getTooltipText = function(e) {
         var faixa = e.aggField[0];
         var distrito = e.aggField[1];
         return [
             distrito,
             faixa + ": R$ " + numero_com_pontos(e.y)
         ];
-    };
+    };*/
+
+    dados.forEach(function (d) {
+        if (d['sigla'] in cores) {
+            myChart.assignColor(d['nome'],cores[d['sigla']])
+        }
+    })
+
+    s.addEventHandler("mouseover", function (e){
+        var nome = e.seriesValue[0]
+        var dadinhos = []
+        var tipos = ['proprios_recebido','pf_recebido','partido_recebido']
+        tipos.forEach(function (d) {
+            var item = {'tipo':d,'valor':dados_orig[nome][d], 'capeta':'sim'};
+            dadinhos.push(item);
+        })
+
+        cria_tooltip();
+
+
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+        tooltip.html("<b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></br> " +"<div class='minicontainer'><div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div><div class='textim'> TOTAL RECEBIDO: R$" + numero_com_pontos(dados_orig[nome]['total_recebido'])+"</div><div id='grafico_tooltip'></div></div>")
+        tooltip.style("left", (d3.event.pageX + 10) + "px")
+          .style("top", (d3.event.pageY - 50) + "px")
+          .style("background", (dados_orig[nome]['sigla'] in cores) ? cores[dados_orig[nome]['sigla']] : 'gray' )
+
+       var svg_tooltip = dimple.newSvg("#grafico_tooltip",160,50)
+       svg_tooltip.style("background-color","transparent")
+
+       var grafiquinho = new dimple.chart(svg_tooltip, dadinhos)
+       //grafiquinho.setBounds(0, 0, 30, 0);
+       grafiquinho.addMeasureAxis("x","valor")
+       grafiquinho.addCategoryAxis("y", "capeta");
+       var serie = grafiquinho.addSeries("tipo", dimple.plot.bar);
+
+       grafiquinho.addLegend(45, -40, 100, 20, "left");
+       grafiquinho.draw();
+       $('#grafico_tooltip .dimple-gridline').remove()
+       $('#grafico_tooltip .dimple-axis').remove()
+       $('#grafico_tooltip .dimple-gridline').remove()
+       $('#grafico_tooltip .dimple-gridline').remove()
+
+
+    })
+    s.addEventHandler("mouseleave", function (e) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 0);
+            tooltip.remove();
+    });
 
     legend = myChart.addLegend(45, -40, 900, 20, "left");
-
-    /*distritos.forEach(function (d) {
-        myChart.assignColor(d,"#A11217")
-    })*/
-
 
     myChart.draw();
     window.grafico = myChart
@@ -205,6 +366,21 @@ function comeca_tudo(dados) {
     $(".dimple-axis-x").find('text').each(function (d) {
         $(this).attr('transform','rotate(30) translate(-50,0)');
     })*/
+
+}
+
+function muda_grafico() {
+    var myChart = window.grafico
+    var novos_dados = dimple.filterData(window.data,"mun",escolhido[1])
+    myChart.data = novos_dados
+
+    novos_dados.forEach(function (d) {
+        if (d['sigla'] in cores) {
+            myChart.assignColor(d['nome'],cores[d['sigla']])
+        }
+    })
+
+    myChart.draw(1000);
 
 }
 
@@ -232,17 +408,6 @@ $(document).ready(function(){
         $('#overlay').fadeOut(300);
         $('#calculo').css('z-index', '1');
     })
-
-
-  //CASO ALGUM ITEM DO MENU SEJA SELECIONADO
-    $('#lista_times').change(function() {
-        timeEscolhido =  $(this).children(":selected").attr("id");
-        linhaSelecionada = $(".line")[timeEscolhido];
-        mostraLinha(timeEscolhido, linhaSelecionada, true);
-        redesenha_linha();
-        coloca_tacinhas();
-    });
-
 
 });
 

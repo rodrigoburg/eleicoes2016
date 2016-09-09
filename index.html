@@ -20,15 +20,19 @@
         <meta name="keywords" content="política, eleições, eleição, prefeituras, candidatos, campanhas, arrecadação, jornalismo de dados, datajournalism">
 
 
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/fonts.css">
-        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+    <!-- Le styles -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/dimple.v2.1.6.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fonts.css">
 
 
     </head>
 
     <body>
-    <div id="overlay"></div>
 
         <div class="menu-wrap">
             <div class="imagem">
@@ -52,41 +56,33 @@
 
             </div>
         </div>
-    <div class="svgWrap">
-
-
-            <!-- LINHA FINA DA PÁGINA -->
-            <div id="linhaFina">
-                <p>Escolha algum time desta lista
-                <select id="lista_times">
-                    <option disabled="disabled">CLUBES</option>
-                    <option class="select-dash" disabled="disabled">----</option>
-                </select>
-                ou clique nos escudos para ver o desempenho da equipe no torneio ao longo dos anos</p>
+    <div class="container-fluid conteudo">
+        <div id='menu' class='col-md-12 text-center pagination-centered'>
+            <div class="btn-group" role="group" aria-label="...">
+              <div class="btn-group" role="group">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" id='ufs'>
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu" id='menu_ufs'>
+                  </ul>
             </div>
-
-        </div>
-        <div id="wrapper" style="text-align: center">
-
-            <div style="text-align: center">
-                <!-- LEGENDA DO TIME SELECIONADO -->
-                <div id="legenda" style="display: inline-block">
-                    <p id="nomeTimeSelecionado"></p>
-                    <div class="arrowTooltip"></div>
-
-                </div>
+            <div class="btn-group" role="group">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" id='muns'>
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu" id='menu_muns'>
+              </ul>
             </div>
-
-            <!-- GRÁFICO -->
+          </div>
         </div>
 
-        <div id="explicacao">
-            <p>A pontuação no gráfico corresponde ao 'Elo', uma métrica calculada pelo Estadão Dados para comparar as equipes ao longo do tempo com base nos resultados dos jogos do Campeonato Brasileiro desde 1971. Arraste as alças do gráfico menor para ver um período específico com mais detalhes. Para entender o cálculo, clique <span id="clique_calculo">aqui</span>.</p>
+        <div id='grafico'></div>
+            <div id="explicacao">
+                <p>A pontuação no gráfico corresponde ao 'Elo', uma métrica calculada pelo Estadão Dados para comparar as equipes ao longo do tempo com base nos resultados dos jogos do Campeonato Brasileiro desde 1971. Arraste as alças do gráfico menor para ver um período específico com mais detalhes. Para entender o cálculo, clique <span id="clique_calculo">aqui</span>.</p>
+            </div>
+        <div id="calculo">
+            <h1>Metodologia</h1>
+            <img id="fecha_calculo" src="img/close_button_1-512.png">
+            <p>Ao final de cada campeonato, as pontuações de todos os times são ajustadas para se aproximarem de um valor médio histórico: 946. Se o time terminou o campeonato muito acima da média, ele perde pontos para começar a próxima edição mais perto dos rivais. Se terminou bem abaixo da média, ganha pontos para não começar em muita desvantagem. A pontuação de cada time no começo da série, em 1971, foi calculada com base no desempenho dos times na Taça Roberto Gomes Pedrosa, que antecedeu o Brasileirão.</p>
         </div>
-    <div id="calculo">
-        <h1>Metodologia</h1>
-        <img id="fecha_calculo" src="img/close_button_1-512.png">
-        <p>Ao final de cada campeonato, as pontuações de todos os times são ajustadas para se aproximarem de um valor médio histórico: 946. Se o time terminou o campeonato muito acima da média, ele perde pontos para começar a próxima edição mais perto dos rivais. Se terminou bem abaixo da média, ganha pontos para não começar em muita desvantagem. A pontuação de cada time no começo da série, em 1971, foi calculada com base no desempenho dos times na Taça Roberto Gomes Pedrosa, que antecedeu o Brasileirão.</p>
     </div>
     <br/>
     <br/>
@@ -100,9 +96,6 @@
         </footer>
 
 
-        <script src="js/d3.min.js"></script>
-        <script src='js/jquery-2.1.4.min.js'></script>
-        <script src='js/dimple.v2.1.6.min.js'></script>
         <!--<script type="text/javascript" src="js/d3.min.js"></script>-->
         <!--<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>-->
         <script type="text/javascript" src="js/script.js"></script>
