@@ -1,7 +1,7 @@
 //DIMENSOES DO GRAFICO
 var margins = {top: 10, right: 20, bottom: 80, left: 55},
     width = Math.min(window.innerWidth - margins.right - margins.left ,950),
-    height = 800 - margins.top - margins.bottom,
+    height = 700 - margins.top - margins.bottom,
     w = window.innerWidth - 20;
 
 var formato_data = d3.time.format("%d/%m/%Y");
