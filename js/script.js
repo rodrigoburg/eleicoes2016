@@ -1,7 +1,7 @@
 //DIMENSOES DO GRAFICO
-var margins = {top: 10, right: 70, bottom: 80, left: 55},
-    width = Math.min(window.innerWidth - margins.right - margins.left - 20,900),
-    height = 550 - margins.top - margins.bottom,
+var margins = {top: 10, right: 20, bottom: 80, left: 55},
+    width = Math.min(window.innerWidth - margins.right - margins.left ,950),
+    height = 800 - margins.top - margins.bottom,
     w = window.innerWidth - 20;
 
 var formato_data = d3.time.format("%d/%m/%Y");
@@ -42,6 +42,7 @@ var cores = {
     PPS:'#9A740F',
     DEM:'#634600'
 }
+
 //TOOLTIP COM INFORMACOES DA LINHA
 function cria_tooltip() {
     window.tooltip = d3.select("body").append("div")
@@ -292,7 +293,7 @@ function comeca_tudo(dados) {
 
     var myChart = new dimple.chart(svg, dados);
 
-    myChart.setBounds(margins.left, margins.top, width - margins.right, height - margins.bottom);
+    myChart.setBounds(margins.left, margins.top, width - margins.right - 50, height - margins.bottom);
     var x = myChart.addTimeAxis("x", "data","%Y-%m-%d",'%d/%m');
     var y = myChart.addMeasureAxis("y", "total_recebido");
 
@@ -340,8 +341,11 @@ function comeca_tudo(dados) {
         texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'
         texto += "</div>"
         tooltip.html(texto)
-        tooltip.style("left", (d3.event.pageX + 10) + "px")
-          .style("top", (d3.event.pageY - 50) + "px")
+        var x = (d3.event.pageX + 10)
+        var y = (d3.event.pageY - 50)
+        tooltip
+          .style("left", ((x > width) ? x - 240 : x )+ "px")
+          .style("top",  ((y > (height-340)) ? (y - 300) : y) + "px")
           .style("background", (dados_orig[nome]['sigla'] in cores) ? cores[dados_orig[nome]['sigla']] : 'gray' )
 
 
