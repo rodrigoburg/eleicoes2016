@@ -320,6 +320,8 @@ function comeca_tudo(dados) {
         }
     })
 
+    s.lineWeight = 3;
+
     s.addEventHandler("mouseover", function (e){
         var nome = e.seriesValue[0]
         var dia = formato_data(e.xValue)
@@ -328,7 +330,7 @@ function comeca_tudo(dados) {
 
         tooltip.transition()
             .duration(200)
-            .style("opacity", 0.9);
+            .style("opacity", 1);
         var texto = "<div class='minicontainer'><p class=titulim><b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></p>"
         texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div>"
         texto += "<div class='textim'>R$" + numero_com_pontos(e.yValue)+"</div>"
@@ -376,10 +378,6 @@ function muda_grafico() {
 
     myChart.draw(1000);
 
-}
-
-function formata_numero(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 //FUNCAO CHAMADA QUANDO O DOCUMENTO ESTA PRONTO
