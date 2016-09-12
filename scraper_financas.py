@@ -130,6 +130,7 @@ def scraper_cidades():
 	url2 = 'http://divulgacandcontas.tse.jus.br/divulga/rest/v1/prestador/consulta/receitas/2/'
 
 	Sessao = requests.Session()
+
 	for seq in dados:
 		nova_url1 = url1 + dados[seq]['cod_mun'] + '/11/'+ str(dados[seq]['num']) + '/' + str(dados[seq]['num']) + '/' + str(seq)
 		r = json.loads(Sessao.get(nova_url1).text)
@@ -148,6 +149,7 @@ def scraper_cidades():
 
 			temp = {}
 			for doacao in doacoes:
+				doacao['dtReceita'] = conserta_data(doacao['dtReceita'])
 				if doacao['dtReceita'] not in temp:
 					temp[doacao['dtReceita']] = 0
 				temp[doacao['dtReceita']] += doacao['valorReceita']
@@ -163,19 +165,18 @@ def scraper_cidades():
 				temp[ordem_datas[i]] = soma
 
 			for data in temp:
-				p = {'data':conserta_data(data), 'total_recebido':temp[data]}
+				p = {'data':data, 'total_recebido':temp[data]}
 				parciais.append(p)
 
 		else:
 			parciais.append({'data':conserta_data(r['dataUltimaAtualizacaoContas']),'total_recebido':0})
 
-
-
-
 		item['parciais'] = parciais
 		item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M %d/%m/%Y")
 		item['total_recebido'] = r['dadosConsolidados']['totalRecebido']
 		item['pf_recebido'] = r['dadosConsolidados']['totalReceitaPF']
+		if r['dadosConsolidados']['totalInternet']:
+			item['pf_recebido'] += r['dadosConsolidados']['totalInternet']
 		item['partidos_recebido'] = r['dadosConsolidados']['totalPartidos']
 		item['proprios_recebido'] = r['dadosConsolidados']['totalProprios']
 		item['total_despesas_cont'] = r['despesas']['totalDespesasContratadas']

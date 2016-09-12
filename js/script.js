@@ -138,7 +138,8 @@ function conserta_dados(dados) {
             if (key != 'parciais') {
                 dados_orig[dados[seq]['nome']][key] = dados[seq][key]
                 if (tipos.indexOf(key) != -1) {
-                    dados_orig[dados[seq]['nome']][key+"_porc"] = parseInt(dados[seq][key]*100/dados[seq]['total_recebido'])
+                    var temp = parseInt(dados[seq][key]*100/dados[seq]['total_recebido'])
+                    dados_orig[dados[seq]['nome']][key+"_porc"] = isNaN(temp) ? 0 : temp;
                 }
             }
         }
@@ -332,7 +333,7 @@ function comeca_tudo(dados) {
         texto += "<div class='textim'>R$" + numero_com_pontos(e.yValue)+"</div>"
         texto += "<div class='textim'>"+dia+"</div>"
         texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
-        texto += "<p>Pessoas físicas: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
+        texto += "<p>Pessoas físicas e internet: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
         texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'
         texto += "</div>"
         tooltip.html(texto)
