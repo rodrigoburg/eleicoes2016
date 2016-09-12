@@ -57,6 +57,7 @@ function replaceAll(str, find, replace) {
 }
 
 function numero_com_pontos(x) {
+    x = parseInt(x*100)/100;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
