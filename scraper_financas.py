@@ -130,11 +130,18 @@ def scraper_cidades():
 	url2 = 'http://divulgacandcontas.tse.jus.br/divulga/rest/v1/prestador/consulta/receitas/2/'
 
 	Sessao = requests.Session()
+	saida = []
 
 	for seq in dados:
 		nova_url1 = url1 + dados[seq]['cod_mun'] + '/11/'+ str(dados[seq]['num']) + '/' + str(dados[seq]['num']) + '/' + str(seq)
-		r = json.loads(Sessao.get(nova_url1).text)
-		print(nova_url1)
+		for i in range(10):
+			try:
+				r = json.loads(Sessao.get(nova_url1).text)
+				print(nova_url1)
+				r['dadosConsolidados']
+				break
+			except KeyError:
+				continue
 
 		item = dados[seq]
 		parciais = []
@@ -173,6 +180,7 @@ def scraper_cidades():
 
 		item['parciais'] = parciais
 		item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M %d/%m/%Y")
+
 		item['total_recebido'] = r['dadosConsolidados']['totalRecebido']
 		item['pf_recebido'] = r['dadosConsolidados']['totalReceitaPF']
 		if r['dadosConsolidados']['totalInternet']:
@@ -190,11 +198,17 @@ def scraper_cidades():
 				item[key] = 0
 		dados[seq] = item
 
+		item['sequencial'] = seq
+		saida.append(item)
+
 	with open(path+'arrecadacao_prefs_cidades.json','w') as file:
 		json.dump(dados,file)
 
+	DataFrame(saida).to_csv('analisa_arrec_prefs.csv',index=None)
+
 def scraper_br():
 	conexao = conecta('receitas_pref')
+
 	url = 'http://divulgacandcontas.tse.jus.br/divulga/rest/v1/prestador/consulta/2/2016/'
 	candidatos = read_csv('cands_br.csv').to_dict(orient='records')
 	Sessao = requests.Session()
