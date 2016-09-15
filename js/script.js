@@ -120,6 +120,7 @@ function conserta_dados(dados) {
                 for (key in item) {
                     campos.push(key)
                 }
+                campos.push("sequencial")
             }
 
             //aqui vamos povoar nosso dicionário de estados e municiípios para criar o select
@@ -129,23 +130,23 @@ function conserta_dados(dados) {
             if (cidades[dados[seq]['uf']].indexOf(dados[seq]['mun']) == -1) {
                 cidades[dados[seq]['uf']].push(dados[seq]['mun'])
             }
+            item['sequencial'] = seq
             saida.push(item)
         })
 
         //e aqui um dicionário de dados genéricos de cada candidato para fazermos a tooltip
         var tipos = ['proprios_recebido','pf_recebido','partidos_recebido']
 
-        dados_orig[dados[seq]['nome']] = {}
+        dados_orig[seq] = {}
         for (key in dados[seq]) {
             if (key != 'parciais') {
-                dados_orig[dados[seq]['nome']][key] = dados[seq][key]
+                dados_orig[seq][key] = dados[seq][key]
                 if (tipos.indexOf(key) != -1) {
                     var temp = parseInt(dados[seq][key]*100/dados[seq]['total_recebido'])
-                    dados_orig[dados[seq]['nome']][key+"_porc"] = isNaN(temp) ? 0 : temp;
+                    dados_orig[seq][key+"_porc"] = isNaN(temp) ? 0 : temp;
                 }
             }
         }
-        dados_orig[dados[seq]['nome']]['sequencial'] = seq
 
     }
 
@@ -189,6 +190,7 @@ function conserta_dados(dados) {
                     item[key] = dados[seq][key]
                 }
             }
+            item['sequencial'] = seq
 
             saida.push(item);
         }
@@ -212,6 +214,7 @@ function conserta_dados(dados) {
                     item[key] = dados[seq][key]
                 }
             }
+            item['sequencial'] = seq
 
             saida.push(item)
         }
@@ -290,6 +293,7 @@ function comeca_tudo(dados) {
 
     var svg = dimple.newSvg("#grafico",width,height)
     dados = dimple.filterData(dados, "mun", escolhido[1]);
+    console.log(dados)
 
     var myChart = new dimple.chart(svg, dados);
 
@@ -299,8 +303,7 @@ function comeca_tudo(dados) {
 
     y.title = 'Total de doações recebidas por candidato (R$)'
     x.title = ''
-
-    var s = myChart.addSeries("nome", dimple.plot.line);
+    var s = myChart.addSeries(["sequencial","nome"], dimple.plot.line);
     s.interpolation = "monotone";
     s.lineMarkers = true;
 
@@ -317,6 +320,7 @@ function comeca_tudo(dados) {
 
     dados.forEach(function (d) {
         if (d['sigla'] in cores) {
+            myChart.assignColor(d['sequencial'],cores[d['sigla']])
             myChart.assignColor(d['nome'],cores[d['sigla']])
         }
     })
@@ -332,7 +336,7 @@ function comeca_tudo(dados) {
         tooltip.transition()
             .duration(200)
             .style("opacity", 1);
-        var texto = "<div class='minicontainer'><p class=titulim><b>" + nome + " ("+dados_orig[nome]['sigla']+")</b></p>"
+        var texto = "<div class='minicontainer'><p class=titulim><b>" + dados_orig[nome]['nome'] + " ("+dados_orig[nome]['sigla']+")</b></p>"
         texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div>"
         texto += "<div class='textim'>R$" + numero_com_pontos(e.yValue)+"</div>"
         texto += "<div class='textim'>"+dia+"</div>"
@@ -345,7 +349,7 @@ function comeca_tudo(dados) {
         var y = (d3.event.pageY - 50)
         tooltip
           .style("left", ((x > width) ? x - 240 : x )+ "px")
-          .style("top",  ((y > (height-340)) ? (y - 300) : y) + "px")
+          .style("top",  ((y > (height-200)) ? (y - 250) : y) + "px")
           .style("background", (dados_orig[nome]['sigla'] in cores) ? cores[dados_orig[nome]['sigla']] : 'gray' )
 
 
@@ -361,6 +365,14 @@ function comeca_tudo(dados) {
 
     myChart.draw();
     window.grafico = myChart
+
+    //troca a legenda de sequencial pro nome
+    $('.dimple-legend-text').each(function (d) {
+        var seq = $(this).text()
+        console.log(seq)
+        $(this).text(dados_orig[seq]['nome'])
+
+    })
 
     /*torce as labels
     $(".dimple-axis-x").find('text').each(function (d) {
