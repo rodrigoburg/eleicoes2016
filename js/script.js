@@ -43,6 +43,11 @@ var cores = {
     DEM:'#634600'
 }
 
+function openInNewTab(url) {
+  var win = window.open(url, '_blank');
+  win.focus();
+}
+
 //TOOLTIP COM INFORMACOES DA LINHA
 function cria_tooltip() {
     window.tooltip = d3.select("body").append("div")
@@ -97,7 +102,7 @@ function conserta_dados(dados) {
         dados[seq]['parciais'].forEach(function (d) {
             item = {}
             for (key in dados[seq]) {
-                if (['mun','nome', 'num', 'sigla', 'uf'].indexOf(key) > -1) {
+                if (['mun','nome', 'num','cod_mun','sigla', 'uf'].indexOf(key) > -1) {
                     item[key] = dados[seq][key]
                 }
             }
@@ -368,10 +373,12 @@ function comeca_tudo(dados) {
 
     //troca a legenda de sequencial pro nome
     $('.dimple-legend-text').each(function (d) {
-        var seq = $(this).text()
-        console.log(seq)
-        $(this).text(dados_orig[seq]['nome'])
 
+        var seq = ($(this).attr('class').split(/\s+/))[2].split('-')[1]
+        $(this).on('click',function (d) {
+            var url = "http://divulgacandcontas.tse.jus.br/divulga/#/candidato/2016/2/"+dados_orig[seq]['cod_mun']+"/"+seq
+            openInNewTab(url)
+        })
     })
 
     /*torce as labels
@@ -393,6 +400,17 @@ function muda_grafico() {
     })
 
     myChart.draw(1000);
+
+    //troca a legenda de sequencial pro nome
+    $('.dimple-legend-text').each(function (d) {
+
+        var seq = ($(this).attr('class').split(/\s+/))[2].split('-')[1]
+        $(this).on('click',function (d) {
+            var url = "http://divulgacandcontas.tse.jus.br/divulga/#/candidato/2016/2/"+dados_orig[seq]['cod_mun']+"/"+seq
+            openInNewTab(url)
+        })
+    })
+
 
 }
 

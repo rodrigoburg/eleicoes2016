@@ -23,6 +23,9 @@ body {
 
 }
 
+.dimple-legend-text { cursor: pointer; cursor: hand; }
+
+
 .minicontainer {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   text-align: center;
