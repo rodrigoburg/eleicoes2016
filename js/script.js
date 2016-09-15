@@ -375,6 +375,7 @@ function comeca_tudo(dados) {
     $('.dimple-legend-text').each(function (d) {
 
         var seq = ($(this).attr('class').split(/\s+/))[2].split('-')[1]
+        //$(this).append('<title>Clique para abrir o site do candidato no TSE</title>')
         $(this).on('click',function (d) {
             var url = "http://divulgacandcontas.tse.jus.br/divulga/#/candidato/2016/2/"+dados_orig[seq]['cod_mun']+"/"+seq
             openInNewTab(url)
