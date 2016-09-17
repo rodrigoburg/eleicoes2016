@@ -123,8 +123,12 @@ def scraper_cidades():
 			datas[seq] = []
 		if 'parciais' not in dados[seq]:
 			continue
-		for data in dados[seq]['parciais']:
-			datas[seq].append(data['data'])
+		try:
+			for data in dados[seq]['parciais']:
+				datas[seq].append(data['data'])
+		except TypeError:
+			pass
+
 
 	url1 = 'http://divulgacandcontas.tse.jus.br/divulga/rest/v1/prestador/consulta/2/2016/'
 	url2 = 'http://divulgacandcontas.tse.jus.br/divulga/rest/v1/prestador/consulta/receitas/2/'
