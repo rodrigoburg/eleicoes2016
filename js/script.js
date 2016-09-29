@@ -298,7 +298,6 @@ function comeca_tudo(dados) {
 
     var svg = dimple.newSvg("#grafico",width,height)
     dados = dimple.filterData(dados, "mun", escolhido[1]);
-    console.log(dados)
 
     var myChart = new dimple.chart(svg, dados);
 
@@ -348,13 +347,16 @@ function comeca_tudo(dados) {
         texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
         texto += "<p>Pessoas físicas e internet: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
         texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'
+        texto += "<hr>"
+        texto += "<div class='textim'>Despesas contratadas:<div>R$" + numero_com_pontos(dados_orig[nome]['total_despesas_cont'])+"</div></div>"
+        texto += "<div class='textim'><p>Balanço: </p>R$" + numero_com_pontos(-dados_orig[nome]['total_despesas_cont']+e.yValue)+"</div>"
         texto += "</div>"
         tooltip.html(texto)
         var x = (d3.event.pageX + 10)
         var y = (d3.event.pageY - 50)
         tooltip
           .style("left", ((x > width) ? x - 240 : x )+ "px")
-          .style("top",  ((y > (height-200)) ? (y - 250) : y) + "px")
+          .style("top",  ((y > (height-280)) ? (y - 250) : y) + "px")
           .style("background", (dados_orig[nome]['sigla'] in cores) ? cores[dados_orig[nome]['sigla']] : 'gray' )
 
 
