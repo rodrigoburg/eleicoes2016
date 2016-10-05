@@ -180,23 +180,23 @@ def scraper_cidades():
 					p = {'data':data, 'total_recebido':temp[data]}
 					parciais.append(p)
 
-		else:
-			parciais.append({'data':conserta_data(r['dataUltimaAtualizacaoContas']),'total_recebido':0})
+			else:
+				parciais.append({'data':conserta_data(r['dataUltimaAtualizacaoContas']),'total_recebido':0})
 
-		item['parciais'] = parciais
-		item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M %d/%m/%Y")
+			item['parciais'] = parciais
+			item['hora_atualizacao'] = datetime.datetime.now().strftime("%H:%M %d/%m/%Y")
 
-		item['total_recebido'] = r['dadosConsolidados']['totalRecebido']
-		item['pf_recebido'] = r['dadosConsolidados']['totalReceitaPF']
-		if r['dadosConsolidados']['totalInternet']:
-			item['pf_recebido'] += r['dadosConsolidados']['totalInternet']
-		item['partidos_recebido'] = r['dadosConsolidados']['totalPartidos']
-		item['proprios_recebido'] = r['dadosConsolidados']['totalProprios']
-		item['total_despesas_cont'] = r['despesas']['totalDespesasContratadas']
-		item['total_despesas_pagas'] = r['despesas']['totalDespesasPagas']
-		item['maiores_doadores'] = r['rankingDoadores']
-		item['maiores_fornecedores'] = r['rankingFornecedores']
-		item['mais_despesas'] = r['concentracaoDespesas']
+			item['total_recebido'] = r['dadosConsolidados']['totalRecebido']
+			item['pf_recebido'] = r['dadosConsolidados']['totalReceitaPF']
+			if r['dadosConsolidados']['totalInternet']:
+				item['pf_recebido'] += r['dadosConsolidados']['totalInternet']
+			item['partidos_recebido'] = r['dadosConsolidados']['totalPartidos']
+			item['proprios_recebido'] = r['dadosConsolidados']['totalProprios']
+			item['total_despesas_cont'] = r['despesas']['totalDespesasContratadas']
+			item['total_despesas_pagas'] = r['despesas']['totalDespesasPagas']
+			item['maiores_doadores'] = r['rankingDoadores']
+			item['maiores_fornecedores'] = r['rankingFornecedores']
+			item['mais_despesas'] = r['concentracaoDespesas']
 
 		for key in item:
 			if not item[key]:
