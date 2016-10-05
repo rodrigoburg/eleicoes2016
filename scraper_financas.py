@@ -151,33 +151,34 @@ def scraper_cidades():
 		parciais = []
 
 		#se tiver declaracoes, vamos encher os dados que estão em parciais:
-		if r['dadosConsolidados']['sqPrestadorConta'] is not None:
+		if r['dadosConsolidados'] is not None:
+			if r['dadosConsolidados']['sqPrestadorConta'] is not None:
 
-			#vamos fuçar os dados anteriores que estarão no end-point2
-			nova_url2 = url2 + r['dadosConsolidados']['sqPrestadorConta'] + '/' + r['dadosConsolidados']['sqEntregaPrestacao']
-			doacoes = json.loads(Sessao.get(nova_url2).text)
-			print(nova_url2)
+				#vamos fuçar os dados anteriores que estarão no end-point2
+				nova_url2 = url2 + r['dadosConsolidados']['sqPrestadorConta'] + '/' + r['dadosConsolidados']['sqEntregaPrestacao']
+				doacoes = json.loads(Sessao.get(nova_url2).text)
+				print(nova_url2)
 
-			temp = {}
-			for doacao in doacoes:
-				doacao['dtReceita'] = conserta_data(doacao['dtReceita'])
-				if doacao['dtReceita'] not in temp:
-					temp[doacao['dtReceita']] = 0
-				temp[doacao['dtReceita']] += doacao['valorReceita']
+				temp = {}
+				for doacao in doacoes:
+					doacao['dtReceita'] = conserta_data(doacao['dtReceita'])
+					if doacao['dtReceita'] not in temp:
+						temp[doacao['dtReceita']] = 0
+					temp[doacao['dtReceita']] += doacao['valorReceita']
 
-			#agora soma as parciais novas com as anteriores
-			datas = list(temp.keys())
-			datas.sort()
-			ordem_datas = {i:d for i,d in enumerate(datas)}
-			for i in range(len(datas)):
-				soma = temp[ordem_datas[i]]
-				if i > 0:
-					soma += temp[ordem_datas[i-1]]
-				temp[ordem_datas[i]] = soma
+				#agora soma as parciais novas com as anteriores
+				datas = list(temp.keys())
+				datas.sort()
+				ordem_datas = {i:d for i,d in enumerate(datas)}
+				for i in range(len(datas)):
+					soma = temp[ordem_datas[i]]
+					if i > 0:
+						soma += temp[ordem_datas[i-1]]
+					temp[ordem_datas[i]] = soma
 
-			for data in temp:
-				p = {'data':data, 'total_recebido':temp[data]}
-				parciais.append(p)
+				for data in temp:
+					p = {'data':data, 'total_recebido':temp[data]}
+					parciais.append(p)
 
 		else:
 			parciais.append({'data':conserta_data(r['dataUltimaAtualizacaoContas']),'total_recebido':0})
