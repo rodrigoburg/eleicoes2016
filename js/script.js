@@ -99,7 +99,12 @@ function conserta_dados(dados) {
     var datas = []
     //primeiro transforma os dados que já temos
     for (seq in dados) {
+        if (dados[seq]['parciais'] == 0) {
+            dados[seq]['parciais'] = [{'data':inicio_campanha,'total_recebido':0}]
+        }
+
         dados[seq]['parciais'].forEach(function (d) {
+
             item = {}
             for (key in dados[seq]) {
                 if (['mun','nome', 'num','cod_mun','sigla', 'uf'].indexOf(key) > -1) {
@@ -156,7 +161,7 @@ function conserta_dados(dados) {
     }
 
     //proximo passo: achar qual é a data mais recente que temos
-    var data_hoje = inicio_campanha;
+    data_hoje = inicio_campanha;
     datas.forEach(function (d) {
         data_hoje = acha_mais_recente(data_hoje,d)
     })
@@ -347,9 +352,11 @@ function comeca_tudo(dados) {
         texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
         texto += "<p>Pessoas físicas e internet: "+dados_orig[nome]['pf_recebido_porc'] + '%</p>'
         texto += "<p>Partido: "+dados_orig[nome]['partidos_recebido_porc'] + '%</p></div>'
-        texto += "<hr>"
-        texto += "<div class='textim'>Despesas contratadas:<div>R$" + numero_com_pontos(dados_orig[nome]['total_despesas_cont'])+"</div></div>"
-        texto += "<div class='textim'><p>Balanço: </p>R$" + numero_com_pontos(-dados_orig[nome]['total_despesas_cont']+e.yValue)+"</div>"
+        if (dia.replace('/','-').replace('/','-') == data_hoje.split('-').reverse().join('-')) {
+            texto += "<hr>"
+            texto += "<div class='textim'>Despesas contratadas:<div>R$" + numero_com_pontos(dados_orig[nome]['total_despesas_cont'])+"</div></div>"
+            texto += "<div class='textim'><p>Balanço: </p>R$" + numero_com_pontos(-dados_orig[nome]['total_despesas_cont']+e.yValue)+"</div>"        
+        }
         texto += "</div>"
         tooltip.html(texto)
         var x = (d3.event.pageX + 10)
