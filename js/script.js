@@ -7,6 +7,7 @@ var margins = {top: 10, right: 20, bottom: 80, left: 55},
 var formato_data = d3.time.format("%d/%m/%Y");
 
 var inicio_campanha = "2016-08-15";
+var fim_campanha = "2016-11-01";
 var cidades = {};
 var escolhido = ['SP',"SÃO PAULO"]
 var dados_orig = {}
@@ -93,6 +94,19 @@ function acha_mais_recente(data1,data2) {
     return data1;
 }
 
+function limita(data1) {
+    var old = fim_campanha.split('-')
+    var novo = data1.split('-')
+    if (parseInt(novo[1]) > parseInt(old[1])) { //se o mês for mais recente, já mudamos
+        return fim_campanha;
+    } else if (parseInt(novo[1]) == parseInt(old[1])) { //se for igual, vamos comparar os dias agora
+        if (parseInt(novo[2]) > parseInt(old[2])) {
+            return fim_campanha;
+        }
+    }
+    return data1;
+}
+
 function conserta_dados(dados) {
     var saida = []
     var campos = []
@@ -114,9 +128,10 @@ function conserta_dados(dados) {
             for (key in d) {
                 //tiramos aqui as datas de 1989, que na verdade é qnd não houve declaração de nada
                 if (key == 'data') {
+                    d[key] = limita(d[key]) //troca datas maiores que a última pela última
                     if (d[key] == "1989-12-31") {
                         d[key] = inicio_campanha
-                    } else { //aqui populamos a lista datas com um set de todas as datas que temos
+                    } else { //aqui populamos a lista datas com um set de todas as datas que temos                        
                         if (datas.indexOf(d[key]) == -1) {
                             datas.push(d[key])
                         }
@@ -313,7 +328,7 @@ function comeca_tudo(dados) {
     y.title = 'Total de doações recebidas por candidato (R$)'
     x.title = ''
     var s = myChart.addSeries(["sequencial","nome"], dimple.plot.line);
-    s.interpolation = "monotone";
+    //s.interpolation = "monotone";
     s.lineMarkers = true;
 
 
@@ -346,7 +361,7 @@ function comeca_tudo(dados) {
             .duration(200)
             .style("opacity", 1);
         var texto = "<div class='minicontainer'><p class=titulim><b>" + dados_orig[nome]['nome'] + " ("+dados_orig[nome]['sigla']+")</b></p>"
-        texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"></div>"
+        texto += "<div><img id='img_perfil' src=http://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/"+dados_orig[nome]['sequencial']+"/"+dados_orig[nome]['cod_mun']+"></div>"
         texto += "<div class='textim'>R$" + numero_com_pontos(e.yValue)+"</div>"
         texto += "<div class='textim'>"+dia+"</div>"
         texto += "<div class='textimzim'><p>Doações próprias: "+dados_orig[nome]['proprios_recebido_porc'] + '%</p>'
